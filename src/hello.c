@@ -18,27 +18,26 @@ int main(int argc, char** argv) {
     // 设置libbpf的错误和调试信息回调函数
     libbpf_set_print(libbpf_print_fn);
 
-    // 打开并解析BPF应用程序
+    // 打开并解析eBPF应用程序
     skel = hello_ebpf__open();
     if (!skel) {
-        fprintf(stderr, "无法打开BPF骨架\n");
+        fprintf(stderr, "无法打开eBPF程序\n");
         return 1;
     }
 
-    // 设置只监控当前进程的write系统调用
     skel->bss->my_pid = getpid();  // 获取当前进程PID
 
-    // 加载并验证BPF程序
+    // 加载并验证eBPF程序
     err = hello_ebpf__load(skel);
     if (err) {
-        fprintf(stderr, "加载和验证BPF骨架失败\n");
+        fprintf(stderr, "加载和验证eBPF程序失败\n");
         goto cleanup;  // 跳转到清理流程
     }
 
-    // 附加tracepoint处理程序
+    // 挂载到tracepoint
     err = hello_ebpf__attach(skel);
     if (err) {
-        fprintf(stderr, "附加BPF骨架失败\n");
+        fprintf(stderr, "挂载eBPF程序失败\n");
         goto cleanup;
     }
 
@@ -50,12 +49,12 @@ int main(int argc, char** argv) {
     // 主循环 - 保持程序运行
     for (;;) {
         // 触发BPF程序执行
-        fprintf(stderr, ".");
-        sleep(1);  // 每秒输出一个点
+        fprintf(stderr, ".");  // 会调用write系统调用
+        sleep(1);              // 每秒输出一个点
     }
 
 cleanup:
     // 清理资源
-    hello_ebpf__destroy(skel);  // 销毁BPF骨架
-    return -err;                // 返回错误码
+    hello_ebpf__destroy(skel);
+    return -err;
 }
