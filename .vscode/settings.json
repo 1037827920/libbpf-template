@@ -5,6 +5,7 @@
         "libbpf.h": "c",
         "bpf_helpers.h": "c",
         "bpf.h": "c",
-        "resource.h": "c"
+        "resource.h": "c",
+        "vmlinux.h": "c"
     }
 }
