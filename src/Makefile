@@ -24,6 +24,8 @@ CFLAGS := -g -Wall
 ALL_LDFLAGS := $(LDFLAGS) $(EXTRA_LDFLAGS)
 # 程序名
 APPS = hello
+# 二进制文件输出目录
+BIN_DIR := ../bin
 
 # 自定义的makefile宏，用于安全地设置变量值
 # 只有当变量未被环境变量或命令行参数设置时，才赋予默认值
@@ -93,7 +95,8 @@ $(OUTPUT)/%.o: %.c $(wildcard %.h) | $(OUTPUT)
 
 # 4. 最终链接
 $(APPS): %: $(OUTPUT)/%.o $(LIBBPF_OBJ) | $(OUTPUT)
-	$(CC) $(CFLAGS) $^ $(ALL_LDFLAGS) -lelf -lz -o $@
+	@mkdir -p $(BIN_DIR)
+	$(CC) $(CFLAGS) $^ $(ALL_LDFLAGS) -lelf -lz -o $(BIN_DIR)/$@
 
 # 出错时删除不完整目标
 .DELETE_ON_ERROR:
