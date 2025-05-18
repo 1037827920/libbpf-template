@@ -3,32 +3,38 @@
 
 # 使用指南
 
-**1. 生成`vmlinux.h`：**
+**1. clone仓库：**
+
+```bash
+git clone --recurse-submodules https://github.com/1037827920/libbpf-template.git
+```
+
+**2. 生成`vmlinux.h`：**
 
 ```bash
 cd tools
 bash generate_vmlinux.sh
 ```
 
-**2. 编写ebpf程序以及用户空间程序：**
+**3. 编写ebpf程序以及用户空间程序：**
 
 - ebpf程序：xxx.bpf.c，即在内核空间中运行的逻辑代码
 - 用户空间程序：用来加载、附加并卸载ebpf程序的程序
 
-**3. 编译：**
+**4. 编译：**
 
 ```bash
 cd src
 make
 ```
 
-**4. 运行：**
+**5. 运行：**
 
 ```bash
 ./program
 ```
 
-**5. 验证：**
+**6. 验证：**
 
 ```bash
 cat /sys/kernel/debug/tracing/trace_pipe
