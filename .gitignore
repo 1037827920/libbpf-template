@@ -2,4 +2,4 @@
 .vscode/
 vmlinux.h
 **/*.elf
-bin/*
+**/main

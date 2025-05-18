@@ -5,7 +5,7 @@
 #include <errno.h>
 #include <sys/resource.h>
 #include <bpf/libbpf.h>
-#include "kprobe.skel.h"
+#include "main.skel.h"
 
 // libbpf日志回调函数
 static int libbpf_print_fn(enum libbpf_print_level level,
@@ -15,21 +15,21 @@ static int libbpf_print_fn(enum libbpf_print_level level,
 }
 
 int main(int argc, char** argv) {
-    struct kprobe_ebpf* skel;
+    struct main_ebpf* skel;
     int err;
 
     // 设置libbpf的错误和调试信息回调函数
     libbpf_set_print(libbpf_print_fn);
 
     // 打开并加载验证eBPF应用程序
-    skel = kprobe_ebpf__open_and_load();
+    skel = main_ebpf__open_and_load();
     if (!skel) {
         fprintf(stderr, "打开和加载eBPF程序失败\n");
         return 1;
     }
 
-    // 挂载到kprobe
-    err = kprobe_ebpf__attach(skel);
+    // 挂载到main
+    err = main_ebpf__attach(skel);
     if (err) {
         fprintf(stderr, "附加eBPF程序失败\n");
         goto cleanup;
@@ -47,6 +47,6 @@ int main(int argc, char** argv) {
     }
 
 cleanup:
-    kprobe_ebpf__destroy(skel);
+    main_ebpf__destroy(skel);
     return -err;
 }

@@ -3,9 +3,9 @@ OUTPUT := .output
 # 编译器
 CLANG := clang
 # libbpf源码路径
-LIBBPF_SRC := $(abspath ../libbpf/src)
+LIBBPF_SRC := $(abspath ../../libbpf/src)
 # bpftool源码路径
-BPFTOOL_SRC := $(abspath ../bpftool/src)
+BPFTOOL_SRC := $(abspath ../../bpftool/src)
 # 静态库路径
 LIBBPF_OBJ := $(abspath $(OUTPUT)/libbpf.a)
 # libbpf输出目录
@@ -15,17 +15,15 @@ BPFTOOL_OUTPUT := $(abspath $(OUTPUT)/bpftool)
 # bpftool二进制文件
 BPFTOOL := $(BPFTOOL_OUTPUT)/bootstrap/bpftool
 # 内核头文件路径
-VMLINUX := ../vmlinux.h
+VMLINUX := ../../vmlinux.h
 # 头文件包含路径
-INCLUDES := -I$(OUTPUT) -I../libbpf/include/uapi -I$(dir $(VMLINUX))
+INCLUDES := -I$(OUTPUT) -I../../libbpf/include/uapi -I$(dir $(VMLINUX))
 # 编译选项：-g 生成调试信息 -Wall 启用所有编译警告
 CFLAGS := -g -Wall
 # 链接选项：加上系统中环境变量要求的链接选项
 ALL_LDFLAGS := $(LDFLAGS) $(EXTRA_LDFLAGS)
 # 程序名
-APPS = kprobe
-# 二进制文件输出目录
-BIN_DIR := ../bin
+APPS = main
 
 # 自定义的makefile宏，用于安全地设置变量值
 # 只有当变量未被环境变量或命令行参数设置时，才赋予默认值
@@ -95,8 +93,7 @@ $(OUTPUT)/%.o: %.c $(wildcard %.h) | $(OUTPUT)
 
 # 4. 最终链接
 $(APPS): %: $(OUTPUT)/%.o $(LIBBPF_OBJ) | $(OUTPUT)
-	@mkdir -p $(BIN_DIR)
-	$(CC) $(CFLAGS) $^ $(ALL_LDFLAGS) -lelf -lz -o $(BIN_DIR)/$@
+	$(CC) $(CFLAGS) $^ $(ALL_LDFLAGS) -lelf -lz -o $@
 
 # 出错时删除不完整目标
 .DELETE_ON_ERROR:

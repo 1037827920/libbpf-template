@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <sys/resource.h>
 #include <unistd.h>
-#include "hello.skel.h"
+#include "main.skel.h"
 
 // libbpf日志回调函数
 static int libbpf_print_fn(enum libbpf_print_level level,
@@ -12,14 +12,14 @@ static int libbpf_print_fn(enum libbpf_print_level level,
 }
 
 int main(int argc, char** argv) {
-    struct hello_ebpf* skel;
+    struct main_ebpf* skel;
     int err;
 
     // 设置libbpf的错误和调试信息回调函数
     libbpf_set_print(libbpf_print_fn);
 
     // 打开并解析eBPF应用程序
-    skel = hello_ebpf__open();
+    skel = main_ebpf__open();
     if (!skel) {
         fprintf(stderr, "无法打开eBPF程序\n");
         return 1;
@@ -28,14 +28,14 @@ int main(int argc, char** argv) {
     skel->bss->my_pid = getpid();  // 获取当前进程PID
 
     // 加载并验证eBPF程序
-    err = hello_ebpf__load(skel);
+    err = main_ebpf__load(skel);
     if (err) {
         fprintf(stderr, "加载和验证eBPF程序失败\n");
         goto cleanup;  // 跳转到清理流程
     }
 
     // 挂载到tracepoint
-    err = hello_ebpf__attach(skel);
+    err = main_ebpf__attach(skel);
     if (err) {
         fprintf(stderr, "挂载eBPF程序失败\n");
         goto cleanup;
@@ -55,6 +55,6 @@ int main(int argc, char** argv) {
 
 cleanup:
     // 清理资源
-    hello_ebpf__destroy(skel);
+    main_ebpf__destroy(skel);
     return -err;
 }
