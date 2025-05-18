@@ -3,3 +3,5 @@
 vmlinux.h
 **/*.elf
 **/main
+**/compile_commands.json
+**/.cache

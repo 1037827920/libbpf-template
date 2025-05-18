@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <sys/resource.h>
 #include <unistd.h>
-#include "main.skel.h"
+#include ".output/main.skel.h"
 
 // libbpf日志回调函数
 static int libbpf_print_fn(enum libbpf_print_level level,
