@@ -9,6 +9,5 @@ SEC("tp/tcp/tcp_send_reset")
 int trace_tcp_send_reset(void* ctx) {
     // 在内核日志中打印信息
     bpf_printk("trace_tcp_send_reset() is here.\n");
-
     return 0;
 }
