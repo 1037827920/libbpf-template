@@ -3,9 +3,9 @@ OUTPUT := .output
 # 编译器
 CLANG := clang
 # libbpf源码路径
-LIBBPF_SRC := $(abspath ../../libbpf/src)
+LIBBPF_SRC := $(abspath ../../../libbpf/src)
 # bpftool源码路径
-BPFTOOL_SRC := $(abspath ../../bpftool/src)
+BPFTOOL_SRC := $(abspath ../../../bpftool/src)
 # 静态库路径
 LIBBPF_OBJ := $(abspath $(OUTPUT)/libbpf.a)
 # libbpf输出目录
@@ -15,9 +15,9 @@ BPFTOOL_OUTPUT := $(abspath $(OUTPUT)/bpftool)
 # bpftool二进制文件
 BPFTOOL := $(BPFTOOL_OUTPUT)/bootstrap/bpftool
 # 内核头文件路径
-VMLINUX := ../../vmlinux.h
+VMLINUX := ../../../vmlinux.h
 # 头文件包含路径
-INCLUDES := -I$(OUTPUT) -I../../libbpf/include/uapi -I$(dir $(VMLINUX))
+INCLUDES := -I$(OUTPUT) -I../../../libbpf/include/uapi -I$(dir $(VMLINUX))
 # 编译选项：-g 生成调试信息 -Wall 启用所有编译警告
 CFLAGS := -g -Wall
 # 链接选项：加上系统中环境变量要求的链接选项
