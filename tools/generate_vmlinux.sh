@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 
 # 检查 bpftool 是否已安装
 if ! command -v bpftool &>/dev/null; then
